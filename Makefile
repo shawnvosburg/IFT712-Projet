@@ -8,7 +8,7 @@ PROJECT_DIR := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 BUCKET = [OPTIONAL] your-bucket-for-syncing-data (do not include 's3://')
 PROFILE = default
 PROJECT_NAME = ift712-projet
-PYTHON_INTERPRETER = python3
+PYTHON_INTERPRETER = python
 
 ifeq (,$(shell which conda))
 HAS_CONDA=False
@@ -80,6 +80,8 @@ test_environment:
 # PROJECT RULES                                                                 #
 #################################################################################
 
+extract-leaf:
+	$(PYTHON_INTERPRETER) ./dataset/leaf-classification.py
 
 
 #################################################################################
