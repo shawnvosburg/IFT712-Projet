@@ -231,7 +231,7 @@ man_pages = [
 texinfo_documents = [
     ('index', 'ift712-projet', u'IFT712-Projet Documentation',
      u"ShawnVosburg", 'IFT712-Projet',
-     'Projet de session pour IFT712 de USherbrooke.', 'Miscellaneous'),
+     'Semester project for IFT712 class of USherbrooke.', 'Miscellaneous'),
 ]
 
 # Documents to append as an appendix to all manuals.
