@@ -16,12 +16,12 @@ PROCESSEDDATA_FOLDER = DATA_PATH + '\\processed\\'
 PROCESSED_FILENAME = 'processed.json'
 
 class DataManager:
-    def __init__(self, seed = 0):
+    def __init__(self, seed = 0, cmds = []):
         self._df = None
         self._labels = None
         self.label_name = ""
         self._seed = seed
-        self.cmds = []
+        self.cmds = cmds
 
         self._train_indexes = None 
         self._test_indexes = None
@@ -147,21 +147,46 @@ class DataManager:
 
 
 if __name__ == '__main__':
-    #Testing IncludeImages, Normalize, PCA
-    dm = DataManager()
-    dm.CreateCommand(method='IncludeImages')
-    dm.CreateCommand(method='StandardScaler')
-    dm.CreateCommand(method='PCA',n_components=None)
+    METHOD = 0 
+    if(METHOD == 0):
+        #Testing IncludeImages, Normalize, PCA
+        dm = DataManager()
+        dm.CreateCommand(method='IncludeImages')
+        dm.CreateCommand(method='StandardScaler')
+        dm.CreateCommand(method='PCA',n_components=None)
 
-    #Testing Importing and Preprocessing Data
-    dm.importAndPreprocess(label_name = 'species')
+        #Testing Importing and Preprocessing Data
+        dm.importAndPreprocess(label_name = 'species')
 
-    #Spliting data into [Train & Validation] & [Test] datasets
-    dm.setSeed(0) #Important in order to always have same test set
-    dm.split_data(test_ratio=0.1)
+        #Spliting data into [Train & Validation] & [Test] datasets
+        dm.setSeed(0) #Important in order to always have same test set
+        dm.split_data(test_ratio=0.1)
 
-    #Getting K-fold datasets
-    for i, (X_train, X_val, Y_train, Y_val) in enumerate(dm.k_fold(k=10)):
-        print('K =', i)
-        print('\tAmount of Train observations:', len(X_train))
-        print('\tAmount of Validation observations:', len(X_val))
+        #Getting K-fold datasets
+        for i, (X_train, X_val, Y_train, Y_val) in enumerate(dm.k_fold(k=10)):
+            print('K =', i)
+            print('\tAmount of Train observations:', len(X_train))
+            print('\tAmount of Validation observations:', len(X_val))
+    else:
+        #Another valid method
+        cmds = [
+            {   'method':'IncludeImages',
+                'hyperparams':{}
+            },
+            {   'method':'StandardScaler',
+                'hyperparams':{}
+            },
+            {   'method':'PCA',
+                'hyperparams':{
+                    'n_components':None
+                }
+            }
+        ]
+        dm2 = DataManager(cmds=cmds)
+        dm2.importAndPreprocess(label_name = 'species')
+        dm2.setSeed(0)
+        dm2.split_data(test_ratio=0.1)
+        for i, (X_train, X_val, Y_train, Y_val) in enumerate(dm2.k_fold(k=10)):
+            print('K =', i)
+            print('\tAmount of Train observations:', len(X_train))
+            print('\tAmount of Validation observations:', len(X_val))
