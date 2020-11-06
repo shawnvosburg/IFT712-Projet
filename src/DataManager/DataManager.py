@@ -151,7 +151,7 @@ if __name__ == '__main__':
     if(METHOD == 0):
         #Testing IncludeImages, Normalize, PCA
         dm = DataManager()
-        dm.CreateCommand(method='IncludeImages')
+        dm.CreateCommand(method='PolynomialFeatures',degree = 2)
         dm.CreateCommand(method='StandardScaler')
         dm.CreateCommand(method='PCA',n_components=None)
 
