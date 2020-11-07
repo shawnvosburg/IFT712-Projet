@@ -2,7 +2,7 @@
 #-*- coding: utf-8 -*-
 import pandas as pd
 from sklearn.decomposition import PCA as _PCA 
-from PreprocessingStrategy import PreprocessingStrategy
+from src.DataManagement.Preprocessing import PreprocessingStrategy
 
 class PCA(PreprocessingStrategy):
     def __init__(self,**kwargs):

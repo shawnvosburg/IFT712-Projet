@@ -4,11 +4,14 @@ import pandas as pd
 import os
 import pathlib
 import matplotlib.image as mpimage
-import PreprocessingStrategy as pps
+from src.DataManagement import Preprocessing as preproc
 import json
 import uuid
 import numpy as np
 from sklearn.model_selection import KFold,train_test_split
+from sklearn.preprocessing import OneHotEncoder
+
+
 
 DATA_PATH = str(pathlib.Path(__file__).parent.absolute()) + '\\..\\..\\data\\'
 RAWDATA_PATH = DATA_PATH + '\\raw\\train.csv'
@@ -32,14 +35,14 @@ class DataManager:
         if(self._train_indexes is None): return self._df.index
         else:                            return self._train_indexes
     @train_indexes.setter
-    def train_indexes(self,val):
+    def train_indexes_setter(self,val):
         self._train_indexes = val
     @property
     def test_indexes(self):
         if(self._test_indexes is None):  return []
         else:                            return self._test_indexes
     @test_indexes.setter
-    def train_indexes(self,val):
+    def train_indexes_setter(self,val):
         self._test_indexes = val
 
     # Common datasubsets 
@@ -91,7 +94,7 @@ class DataManager:
         print('Commencing preprocessing...')
         for i,cmd in enumerate(self.cmds):
             print('\tMethod #%d:'%i,cmd)
-            strategy = getattr(pps,cmd['method'])(**cmd['hyperparams'])
+            strategy = getattr(preproc,cmd['method'])(**cmd['hyperparams'])
             self._df = strategy.preprocess(self._df)
         print('Done!')
 

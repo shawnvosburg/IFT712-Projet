@@ -2,7 +2,7 @@
 #-*- coding: utf-8 -*-
 
 import pandas as pd
-from PreprocessingStrategy import PreprocessingStrategy
+from src.DataManagement.Preprocessing import PreprocessingStrategy
 from sklearn.preprocessing import StandardScaler as _StandardScaler
 
 class StandardScaler(PreprocessingStrategy):
