@@ -44,6 +44,7 @@ def run(DataManagementParams:dict, ClassificationParams:dict, StatisticianParams
     stats = statistics.Statistician(StatisticianParams)
 
     # 3. Perform K-fold
+    print('Performing K-fold....',end='')
     for train_data, val_data, train_labels, val_labels in dm.k_fold(k=10):
         
         # 4. Create Classifier 
@@ -58,6 +59,7 @@ def run(DataManagementParams:dict, ClassificationParams:dict, StatisticianParams
         # 7. Add labels to statistician
         stats.appendLabels(predictions, val_labels.values)
 
+    print('Done!')
     # 8. Calculate average statistics
     statisticsJson = stats.getStatistics()
 
@@ -84,12 +86,18 @@ if __name__ == '__main__':
         'DataManagementParams':{
             'seed': 0,
             'cmds': [
+                {
+                    'method':'FeatureExtraction',
+                    'hyperparams':{
+                        'columns':r'(margin|texture)[\d]+'
+                    }
+                },
                 {   'method':'StandardScaler',
                     'hyperparams':{}
                 },
                 {   'method':'PCA',
                     'hyperparams':{
-                        'n_components':100
+                        'n_components':None
                     }
                 }
             ]   
@@ -100,8 +108,8 @@ if __name__ == '__main__':
             'kernel' : 'rbf'
         },
         'StatisticianParams':[
-            'Accuracy','Precision','Recall','ConfusionMatrix'
+            'Accuracy','Precision','Recall'#,'ConfusionMatrix'
         ]
     }
 
-    run(**cmd)
+    print(run(**cmd))
