@@ -54,4 +54,4 @@ if __name__ == '__main__':
     #In project, this will be handled by the Statistician package
     accuracyList = (predictions == dm.labels_Test.values)
     accuracy = sum(accuracyList) / len(accuracyList)
-    print('Accuracy: {:.3f}%'.format(accuracy))
+    print('Accuracy: {:.3f}%'.format(accuracy * 100))
