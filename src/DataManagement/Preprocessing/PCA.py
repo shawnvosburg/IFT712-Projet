@@ -1,14 +1,14 @@
 #!/usr/bin/python
 #-*- coding: utf-8 -*-
 import pandas as pd
-from sklearn.decomposition import PCA as _PCA 
 from src.DataManagement.Preprocessing import PreprocessingStrategy
+from sklearn.decomposition import PCA as _PCA 
 
 class PCA(PreprocessingStrategy):
     def __init__(self,**kwargs):
         super().__init__()
         self._method = _PCA(**kwargs)
-        self.hyperparams = self._method.get_params()
+        self.hyperparams = self._method.get_params
         
     def preprocess(self, data):
         """ Return the transformed data """
