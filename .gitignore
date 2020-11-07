@@ -23,6 +23,7 @@ var/
 .installed.cfg
 *.egg
 venv/
+models/results
 
 # PyInstaller
 #  Usually these files are written by a python script from a template

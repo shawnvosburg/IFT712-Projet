@@ -16,7 +16,7 @@ def getClassifier(classifier:str, **hyperparams ):
     =======
     Instance of chosen classifier
     """
-    return getattr(sys.modules[__name__],classifier)(**hyperparams)
+    return getattr(sys.modules[__package__],classifier)(**hyperparams)
 
 class Classifier:
     """Base Class for all classifiers."""
