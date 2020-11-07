@@ -1,3 +1,4 @@
+from .Classifier import *
 from .GenerativeModel import *
 from .KernelMethod import *
 from .LogisticRegression import *
