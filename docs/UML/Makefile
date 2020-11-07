@@ -1,5 +1,5 @@
 MKDIR_P = mkdir -p
-OUT_DIR = DataManager DataManager/PreprocessingStrategy Classifiers Statistician
+OUT_DIR = DataManagement DataManagement/Preprocessing Classifiers "."
 current_dir = $(shell pwd)
 
 all: ${OUT_DIR}
