@@ -8,7 +8,8 @@ from src.DataManagement import Preprocessing as preproc
 import json
 import uuid
 import numpy as np
-from sklearn.model_selection import KFold,train_test_split
+from sklearn.model_selection import KFold as _KFold
+from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import OneHotEncoder
 
 
@@ -134,7 +135,7 @@ class DataManager:
         if(self._train_indexes is None):    self.split_data(test_ratio=0.1)
 
         #Creates KFold generator
-        kf = KFold(n_splits=k,shuffle=True,random_state=self._seed)
+        kf = _KFold(n_splits=k,shuffle=True,random_state=self._seed)
         
         #Create generator that spits out data and labels for train and validation datasets
         for train_idxes, val_idxes in kf.split(self.df_Train.to_numpy(), self.labels_Train.to_numpy()):
