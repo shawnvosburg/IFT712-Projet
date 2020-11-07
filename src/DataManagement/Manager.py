@@ -14,9 +14,9 @@ from sklearn.preprocessing import OneHotEncoder
 
 
 
-DATA_PATH = str(pathlib.Path(__file__).parent.absolute()) + '\\..\\..\\data\\'
-RAWDATA_PATH = DATA_PATH + '\\raw\\train.csv'
-PROCESSEDDATA_FOLDER = DATA_PATH + '\\processed\\'
+DATA_PATH = str(pathlib.Path(__file__).parent.absolute()) + '/../../data/'
+RAWDATA_PATH = DATA_PATH + '/raw/train.csv'
+PROCESSEDDATA_FOLDER = DATA_PATH + '/processed/'
 PROCESSED_FILENAME = 'processed.json'
 
 class DataManager:

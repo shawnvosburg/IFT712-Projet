@@ -6,7 +6,7 @@ import json
 import uuid
 import os
 
-SAVEPATH = str(pathlib.Path(__file__).parent.absolute()) + '\\..\\models\\results\\'
+SAVEPATH = str(pathlib.Path(__file__).parent.absolute()) + '/../models/results/'
 RESULTS_FILENAME =  'results.json'
 
 def run(DataManagementParams:dict, ClassificationParams:dict, StatisticianParams:list, savepath = SAVEPATH):
