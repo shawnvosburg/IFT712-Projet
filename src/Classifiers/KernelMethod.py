@@ -1,7 +1,7 @@
 #!/usr/bin/python
 #-*- coding: utf-8 -*-
 
-from Classifier import Classifier
+from src.Classifiers import Classifier
 from sklearn.kernel_ridge import KernelRidge
 from sklearn.preprocessing import OneHotEncoder
 
