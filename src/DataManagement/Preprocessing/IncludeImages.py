@@ -1,7 +1,6 @@
 #!/usr/bin/python
 #-*- coding: utf-8 -*-
-
-from PreprocessingStrategy import PreprocessingStrategy
+from src.DataManagement.Preprocessing import PreprocessingStrategy
 import pathlib
 import os
 import pandas as pd

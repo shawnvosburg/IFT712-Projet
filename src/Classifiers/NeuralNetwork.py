@@ -3,7 +3,7 @@
 
 from Classifier import Classifier
 
-class Fischer(Classifier):
+class NeuralNetwork(Classifier):
     def __init__(self):
         self._model = None
 

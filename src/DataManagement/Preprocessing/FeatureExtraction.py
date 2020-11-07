@@ -1,7 +1,7 @@
 #!/usr/bin/python
 #-*- coding: utf-8 -*-
 
-from PreprocessingStrategy import PreprocessingStrategy
+from src.DataManagement.Preprocessing import PreprocessingStrategy
 
 class FeatureExtraction(PreprocessingStrategy):
     def __init__(self,**kwargs):
