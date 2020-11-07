@@ -86,12 +86,6 @@ if __name__ == '__main__':
         'DataManagementParams':{
             'seed': 0,
             'cmds': [
-                {
-                    'method':'FeatureExtraction',
-                    'hyperparams':{
-                        'columns':r'(margin|texture)[\d]+'
-                    }
-                },
                 {   'method':'StandardScaler',
                     'hyperparams':{}
                 },
@@ -104,8 +98,9 @@ if __name__ == '__main__':
         },
         'ClassificationParams':{
             'classifier':'KernelMethod',
-            'alpha': 0.001,
-            'kernel' : 'rbf'
+            'alpha': 0.0001,
+            'kernel' : 'rbf',
+            'gamma': 0.001
         },
         'StatisticianParams':[
             'Accuracy','Precision','Recall'#,'ConfusionMatrix'
