@@ -80,9 +80,10 @@ class Statistician:
 
         Returns
         =======
-        float: Accuracy score in range [0.0, 1.0]
+        float: precision score in range [0.0, 1.0]
         """
-        return _precision_score(self.truths,self.preds,average='micro')
+        print('Precision!')
+        return _precision_score(self.truths,self.preds,average='weighted')
     
     def _calculateRecall(self):
         """
@@ -94,9 +95,9 @@ class Statistician:
 
         Returns
         =======
-        float: Accuracy score in range [0.0, 1.0]
+        float: recall score in range [0.0, 1.0]
         """
-        return _recall_score(self.truths,self.preds, average = 'micro')
+        return _recall_score(self.truths,self.preds, average = 'weighted')
         
 
 
