@@ -3,7 +3,6 @@
 import pandas as pd
 import os
 import pathlib
-import matplotlib.image as mpimage
 from src.DataManagement import Preprocessing as preproc
 import json
 import uuid
@@ -182,7 +181,7 @@ if __name__ == '__main__':
             },
             {   'method':'PCA',
                 'hyperparams':{
-                    'n_components':None
+                    'n_components':100
                 }
             }
         ]
