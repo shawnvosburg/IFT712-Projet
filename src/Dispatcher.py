@@ -98,12 +98,10 @@ if __name__ == '__main__':
         },
         'ClassificationParams': [
             {
-            'classifier': 'NeuralNetwork',
-            'activation': 'identity',
-            'solver': 'adam',
-            'alpha': 0.001,
-            'learning_rate': 'invscaling',
-            'max_iter': 1000
+            'classifier': 'SVM',
+            'C': 12,
+            'kernel': 'poly',
+            'degree' : 3,
             },
             {
             'classifier': 'LogisticRegression',
