@@ -59,7 +59,7 @@ class DataManager:
     def labels_Test(self):
         return self._labels.loc[self.test_indexes]
 
-    def importAndPreprocess(self,label_name,filepath = RAWDATA_PATH, savepath = PROCESSEDDATA_FOLDER):
+    def importAndPreprocess(self,label_name,filepath = RAWDATA_PATH, savepath = PROCESSEDDATA_FOLDER, verbose=False):
         """ Checks if pre-processed data already saved. Loads pre-processed data if so. Else, generates preprocessed data. """
         #1. Check to see if data has already been preprocessed
          # Load already saved preprocessed data
@@ -69,12 +69,12 @@ class DataManager:
             for key in preprocessedJson:
                 if(preprocessedJson[key] == self.cmds):
                     preprocessedPath = savepath + key
-                    print('Loading saved preprocessed data from %s'%(preprocessedPath))
+                    if(verbose): print('Loading saved preprocessed data from %s'%(preprocessedPath))
                     return self.importData(label_name = label_name,filepath = preprocessedPath)
         #Else, load raw data, preprocess and save
         self.importData(label_name=label_name,filepath=filepath)
-        self.preprocess()
-        self.saveData(savepath=savepath)
+        self.preprocess(verbose=verbose)
+        self.saveData(savepath=savepath, verbose=verbose)
 
     def importData(self, label_name, filepath = RAWDATA_PATH):
         """Import data from file"""
@@ -87,18 +87,18 @@ class DataManager:
         self._labels = self._df[self.label_name]
         del self._df[label_name]
         
-    def preprocess(self):
+    def preprocess(self,verbose=False):
         """Preprocess data. Save Preprocessed data to file."""
 
         # Convert cmd into a list of Preprocessing Strategies
-        print('Commencing preprocessing...')
+        if(verbose): print('Commencing preprocessing...')
         for i,cmd in enumerate(self.cmds):
-            print('\tMethod #%d:'%i,cmd)
+            if(verbose): print('\tMethod #%d:'%i,cmd)
             strategy = getattr(preproc,cmd['method'])(**cmd['hyperparams'])
             self._df = strategy.preprocess(self._df)
-        print('Done!')
+        if(verbose):  print('Done!')
 
-    def saveData(self, savepath = PROCESSEDDATA_FOLDER):
+    def saveData(self, savepath = PROCESSEDDATA_FOLDER, verbose = False):
         # Load already saved file
         if(not os.path.isfile(savepath + PROCESSED_FILENAME)):
             preprocessedJson = {}
@@ -111,7 +111,7 @@ class DataManager:
         preprocessedJson[uuidfilename] = self.cmds
         
         # Dump to harddrive
-        print('Saving preprocessed data to %s'%(savepath + uuidfilename))
+        if(verbose): print('Saving preprocessed data to %s'%(savepath + uuidfilename))
         with open(savepath + PROCESSED_FILENAME,'w') as f:
             json.dump(preprocessedJson, f,indent=4)
         df_tobesaved = self._df.copy()
