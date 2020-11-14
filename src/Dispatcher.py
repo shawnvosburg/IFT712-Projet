@@ -9,7 +9,7 @@ import os
 SAVEPATH = str(pathlib.Path(__file__).parent.absolute()) + '/../models/results/'
 RESULTS_FILENAME =  'results.json'
 
-def run(DataManagementParams:dict, ClassificationParams:list, StatisticianParams:list, savepath = SAVEPATH):
+def run(DataManagementParams:dict, ClassificationParams:dict, StatisticianParams:list, verbose = False,savepath = SAVEPATH):
     """
     Launches a machine learning classification evaluation
 
@@ -23,28 +23,33 @@ def run(DataManagementParams:dict, ClassificationParams:list, StatisticianParams
     =======
     void.
     """
+    cmd = {
+        'DataManagementParams':DataManagementParams,
+        'ClassificationParams':ClassificationParams,
+        'StatisticianParams':StatisticianParams
+    }
+
     # 0. Check to see if work was already done.
     resultsJson = {}
     if(os.path.isfile(savepath + RESULTS_FILENAME)):
             with open(savepath + RESULTS_FILENAME) as f:
                 resultsJson = json.load(f)
             for key in resultsJson:
-                if(resultsJson[key] == cmd):
+                if(resultsJson[key]['pipeline'] == cmd):
                     statisticsPath = savepath + key
-                    print('Loading saved statistics data from %s'%(statisticsPath))
-                    with open(statisticsPath) as f:
-                        statisticsJson = json.load(f)
+                    if(verbose): print('Loading saved statistics data from %s'%(statisticsPath))
+                    statisticsJson = resultsJson[key]['results']
                     return statisticsJson
 
     # 1. Prepare data
     dm = DataManager(**DataManagementParams)
-    dm.importAndPreprocess(label_name = 'species')
+    dm.importAndPreprocess(label_name = 'species',verbose=verbose)
 
     # 2. Create Statistician
     stats = statistics.Statistician(StatisticianParams)
 
     # 3. Perform K-fold
-    print('Performing K-fold....',end='')
+    if(verbose): print('Performing K-fold....',end='')
     for train_data, val_data, train_labels, val_labels in dm.k_fold(k=10):
         
         # 4. Create Classifier
@@ -59,23 +64,18 @@ def run(DataManagementParams:dict, ClassificationParams:list, StatisticianParams
         # 7. Add labels to statistician
         stats.appendLabels(predictions, val_labels.values)
 
-    print('Done!')
+    if(verbose): print('Done!')
     # 8. Calculate average statistics
     statisticsJson = stats.getStatistics()
 
     # 9. Save results
     if(savepath is not None):
-        stats_filename = str(uuid.uuid1()) + '.json'
+        stats_name = str(uuid.uuid1())
 
         #Update results.json
-        resultsJson.update({stats_filename:cmd})
+        resultsJson.update({stats_name:{'pipeline':cmd,'results':statisticsJson}})
         with open(savepath + RESULTS_FILENAME, 'w') as f:
             json.dump(resultsJson,f,indent=4)
-        
-        #save results
-        print('Saving statistics in file',savepath + stats_filename)
-        with open(savepath + stats_filename,'w') as f:
-            json.dump(statisticsJson,f,indent=4)
     
 
     return statisticsJson
@@ -83,15 +83,18 @@ def run(DataManagementParams:dict, ClassificationParams:list, StatisticianParams
 
 if __name__ == '__main__':
     cmd = {
-        'DataManagementParams':{
-            'seed': 0,
-            'cmds': [
-                {   'method':'StandardScaler',
-                    'hyperparams':{}
-                },
-                {   'method':'PCA',
-                    'hyperparams':{
-                        'n_components':100
+        "DataManagementParams": {
+                "seed": 16082604,
+                "cmds": [
+                    {
+                        "method": "Normalize",
+                        "hyperparams": {}
+                    },
+                    {
+                        "method": "FeatureExtraction",
+                        "hyperparams": {
+                            "columns": "^\\w*\\d*[02468]$"
+                        }
                     }
                 }
             ]   
@@ -143,4 +146,4 @@ if __name__ == '__main__':
         ]
     }
 
-    print(run(**cmd))
+    print(run(**cmd, verbose=True))
