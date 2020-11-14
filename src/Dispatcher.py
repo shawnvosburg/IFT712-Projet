@@ -52,7 +52,7 @@ def run(DataManagementParams:dict, ClassificationParams:dict, StatisticianParams
     if(verbose): print('Performing K-fold....',end='')
     for train_data, val_data, train_labels, val_labels in dm.k_fold(k=10):
         
-        # 4. Create Classifier 
+        # 4. Create Classifier
         clf = classification.getClassifier(**ClassificationParams)
 
         # 5. Fit classifier with training data and labels
@@ -96,19 +96,54 @@ if __name__ == '__main__':
                             "columns": "^\\w*\\d*[02468]$"
                         }
                     }
-                ]
+                }
+            ]   
+        },
+        'ClassificationParams': [
+            {
+            'classifier': 'SVM',
+            'C': 12,                                    # Regularization parameter.
+            'kernel': 'poly',                           # {‘linear’, ‘poly’, ‘rbf’, ‘sigmoid’, ‘precomputed’}
+            'degree' : 3,                               # Degree of the polynomial kernel function (‘poly’)
+            # gamma : {‘scale’, ‘auto’} or float        # Kernel coefficient for ‘rbf’, ‘poly’ and ‘sigmoid
             },
-            "ClassificationParams": {
-                "classifier": "KernelMethod",
-                "alpha": 0.00024255310558892541,
-                "kernel": "rbf",
-                "gamma": 1e-09
+            {
+            'classifier': 'NeuralNetwork',
+            'activation': 'relu',                   # activation {‘identity’, ‘logistic’, ‘tanh’, ‘relu’}
+            'solver': 'adam',                           # solver {‘lbfgs’, ‘sgd’, ‘adam’}
+            'alpha': 0.001,                             # regularization parameter
+            'learning_rate': 'invscaling',              # learning_rate{‘constant’, ‘invscaling’, ‘adaptive’}
+            'max_iter': 1000
             },
-            "StatisticianParams": [
-                "Accuracy",
-                "Precision",
-                "Recall"
-            ]
+            {
+            'classifier': 'LogisticRegression',
+            'solver': 'liblinear',                      # solver {‘newton-cg’, ‘lbfgs’, ‘liblinear’, ‘sag’, ‘saga’}
+            'random_state': 0,                          # Control randomness
+            'penalty': 'l2',                            # penalty {‘l1’, ‘l2’, ‘elasticnet’, ‘none’}
+            'tol': 1e-3,                                # Tolerance for stopping criteria
+            'C': 2.5,                                   # regularization parameter
+            },
+            {
+            'classifier':'Perceptron',
+            'loss': 'perceptron',
+            'penalty' : 'l2',
+            'alpha': 0.01,                              # Regularization parameter
+            'learning_rate': 'invscaling',              # learning_rate {‘constant’,‘optimal’, ‘invscaling’, ‘adaptive’}
+            'eta0': 1,                                  # Constant by which the updates are multiplied
+            },
+            {
+            'classifier': 'KernelMethod',
+            'alpha': 0.0001,
+            'kernel': 'rbf',
+            'gamma': 0.001                              # gamma defines how much influence a single training example has
+            },
+            {
+            'classifier': 'GenerativeModel'
+            }
+        ][5],
+        'StatisticianParams':[
+            'Accuracy','Precision','Recall'#,'ConfusionMatrix'
+        ]
     }
 
     print(run(**cmd, verbose=True))
