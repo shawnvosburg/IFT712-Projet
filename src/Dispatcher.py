@@ -9,7 +9,7 @@ import os
 SAVEPATH = str(pathlib.Path(__file__).parent.absolute()) + '/../models/results/'
 RESULTS_FILENAME =  'results.json'
 
-def run(DataManagementParams:dict, ClassificationParams:dict, StatisticianParams:list, savepath = SAVEPATH):
+def run(DataManagementParams:dict, ClassificationParams:list, StatisticianParams:list, savepath = SAVEPATH):
     """
     Launches a machine learning classification evaluation
 
@@ -47,8 +47,8 @@ def run(DataManagementParams:dict, ClassificationParams:dict, StatisticianParams
     print('Performing K-fold....',end='')
     for train_data, val_data, train_labels, val_labels in dm.k_fold(k=10):
         
-        # 4. Create Classifier 
-        clf = classification.getClassifier(**ClassificationParams)
+        # 4. Create Classifier
+        clf = classification.getClassifier(**ClassificationParams[0])
 
         # 5. Fit classifier with training data and labels
         clf.fit(train_data, train_labels)
@@ -96,12 +96,22 @@ if __name__ == '__main__':
                 }
             ]   
         },
-        'ClassificationParams':{
-            'classifier':'KernelMethod',
+        'ClassificationParams': [
+            {
+            'classifier':'Perceptron',
+            'loss': 'perceptron',
+            'penalty' : 'l2',
+            'alpha': 0.01,
+            'learning_rate': 'invscaling',
+            'eta0': 1,
+            },
+            {
+            'classifier': 'KernelMethod',
             'alpha': 0.0001,
-            'kernel' : 'rbf',
+            'kernel': 'rbf',
             'gamma': 0.001
-        },
+            }
+        ],
         'StatisticianParams':[
             'Accuracy','Precision','Recall'#,'ConfusionMatrix'
         ]
