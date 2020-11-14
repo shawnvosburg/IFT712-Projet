@@ -105,12 +105,20 @@ if __name__ == '__main__':
             # gamma : {‘scale’, ‘auto’} or float        # Kernel coefficient for ‘rbf’, ‘poly’ and ‘sigmoid
             },
             {
+            'classifier': 'NeuralNetwork',
+            'activation': 'identity',                   # activation {‘identity’, ‘logistic’, ‘tanh’, ‘relu’}
+            'solver': 'adam',                           # solver {‘lbfgs’, ‘sgd’, ‘adam’}
+            'alpha': 0.001,                             # regularization parameter
+            'learning_rate': 'invscaling',              # learning_rate{‘constant’, ‘invscaling’, ‘adaptive’}
+            'max_iter': 1000
+            },
+            {
             'classifier': 'LogisticRegression',
             'solver': 'liblinear',                      # solver {‘newton-cg’, ‘lbfgs’, ‘liblinear’, ‘sag’, ‘saga’}
             'random_state': 0,                          # Control randomness
             'penalty': 'l2',                            # penalty {‘l1’, ‘l2’, ‘elasticnet’, ‘none’}
             'tol': 1e-3,                                # Tolerance for stopping criteria
-            'C': 2.5,                                   # Regularization parameter
+            'C': 2.5,                                   # regularization parameter
             },
             {
             'classifier':'Perceptron',
