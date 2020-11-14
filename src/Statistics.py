@@ -67,8 +67,7 @@ class Statistician:
         =======
         float: Accuracy score in range [0.0, 1.0]
         """
-        # 1. Linearize all labels
-        return np.mean(self.preds == self.truths)
+        return '{:.3f}'.format(np.mean(self.preds == self.truths))
 
     def _calculatePrecision(self):
         """
@@ -82,8 +81,7 @@ class Statistician:
         =======
         float: precision score in range [0.0, 1.0]
         """
-        print('Precision!')
-        return _precision_score(self.truths,self.preds,average='weighted')
+        return '{:.3f}'.format(_precision_score(self.truths,self.preds,average='macro', zero_division=0.0))
     
     def _calculateRecall(self):
         """
@@ -97,7 +95,7 @@ class Statistician:
         =======
         float: recall score in range [0.0, 1.0]
         """
-        return _recall_score(self.truths,self.preds, average = 'weighted')
+        return '{:.3f}'.format(_recall_score(self.truths,self.preds, average = 'macro', zero_division=0.0))
         
 
 
