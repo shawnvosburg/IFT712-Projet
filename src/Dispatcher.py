@@ -48,7 +48,7 @@ def run(DataManagementParams:dict, ClassificationParams:list, StatisticianParams
     for train_data, val_data, train_labels, val_labels in dm.k_fold(k=10):
         
         # 4. Create Classifier
-        clf = classification.getClassifier(**ClassificationParams[0])
+        clf = classification.getClassifier(**ClassificationParams)
 
         # 5. Fit classifier with training data and labels
         clf.fit(train_data, train_labels)
@@ -106,7 +106,7 @@ if __name__ == '__main__':
             },
             {
             'classifier': 'NeuralNetwork',
-            'activation': 'identity',                   # activation {‘identity’, ‘logistic’, ‘tanh’, ‘relu’}
+            'activation': 'relu',                   # activation {‘identity’, ‘logistic’, ‘tanh’, ‘relu’}
             'solver': 'adam',                           # solver {‘lbfgs’, ‘sgd’, ‘adam’}
             'alpha': 0.001,                             # regularization parameter
             'learning_rate': 'invscaling',              # learning_rate{‘constant’, ‘invscaling’, ‘adaptive’}
@@ -133,8 +133,11 @@ if __name__ == '__main__':
             'alpha': 0.0001,
             'kernel': 'rbf',
             'gamma': 0.001                              # gamma defines how much influence a single training example has
+            },
+            {
+            'classifier': 'GenerativeModel'
             }
-        ],
+        ][5],
         'StatisticianParams':[
             'Accuracy','Precision','Recall'#,'ConfusionMatrix'
         ]
