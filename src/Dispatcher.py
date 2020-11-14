@@ -84,20 +84,19 @@ def run(DataManagementParams:dict, ClassificationParams:dict, StatisticianParams
 if __name__ == '__main__':
     cmd = {
         "DataManagementParams": {
-                "seed": 16082604,
+                "seed": 160743167,
                 "cmds": [
                     {
-                        "method": "Normalize",
+                        "method": "StandardScaler",
                         "hyperparams": {}
                     },
                     {
-                        "method": "FeatureExtraction",
+                        "method": "PCA",
                         "hyperparams": {
-                            "columns": "^\\w*\\d*[02468]$"
+                            "n_components": 100
                         }
                     }
-                }
-            ]   
+                ]   
         },
         'ClassificationParams': [
             {
