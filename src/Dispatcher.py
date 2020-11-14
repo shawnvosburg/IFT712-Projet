@@ -99,31 +99,32 @@ if __name__ == '__main__':
         'ClassificationParams': [
             {
             'classifier': 'SVM',
-            'C': 12,
-            'kernel': 'poly',
-            'degree' : 3,
+            'C': 12,                                    # Regularization parameter.
+            'kernel': 'poly',                           # {‘linear’, ‘poly’, ‘rbf’, ‘sigmoid’, ‘precomputed’}
+            'degree' : 3,                               # Degree of the polynomial kernel function (‘poly’)
+            # gamma : {‘scale’, ‘auto’} or float        # Kernel coefficient for ‘rbf’, ‘poly’ and ‘sigmoid
             },
             {
             'classifier': 'LogisticRegression',
-            'solver': 'liblinear',
-            'random_state': 0,
-            'penalty': 'l2',
-            'tol': 1e-3,
-            'C': 2.5,   # regularization term
+            'solver': 'liblinear',                      # solver {‘newton-cg’, ‘lbfgs’, ‘liblinear’, ‘sag’, ‘saga’}
+            'random_state': 0,                          # Control randomness
+            'penalty': 'l2',                            # penalty {‘l1’, ‘l2’, ‘elasticnet’, ‘none’}
+            'tol': 1e-3,                                # Tolerance for stopping criteria
+            'C': 2.5,                                   # Regularization parameter
             },
             {
             'classifier':'Perceptron',
             'loss': 'perceptron',
             'penalty' : 'l2',
-            'alpha': 0.01,
-            'learning_rate': 'invscaling',
-            'eta0': 1,
+            'alpha': 0.01,                              # Regularization parameter
+            'learning_rate': 'invscaling',              # learning_rate {‘constant’,‘optimal’, ‘invscaling’, ‘adaptive’}
+            'eta0': 1,                                  # Constant by which the updates are multiplied
             },
             {
             'classifier': 'KernelMethod',
             'alpha': 0.0001,
             'kernel': 'rbf',
-            'gamma': 0.001
+            'gamma': 0.001                              # gamma defines how much influence a single training example has
             }
         ],
         'StatisticianParams':[
