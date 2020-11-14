@@ -98,6 +98,14 @@ if __name__ == '__main__':
         },
         'ClassificationParams': [
             {
+            'classifier': 'LogisticRegression',
+            'solver': 'liblinear',
+            'random_state': 0,
+            'penalty': 'l2',
+            'tol': 1e-3,
+            'C': 2.5,   # regularization term
+            },
+            {
             'classifier':'Perceptron',
             'loss': 'perceptron',
             'penalty' : 'l2',
