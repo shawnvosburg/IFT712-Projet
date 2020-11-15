@@ -2,14 +2,10 @@ from src.DataManagement.Manager import DataManager
 import src.Classifiers as classification
 import src.Statistics as statistics
 import pathlib
-import json
 import uuid
 import os
 
-SAVEPATH = str(pathlib.Path(__file__).parent.absolute()) + '/../models/results/'
-RESULTS_FILENAME =  'results.json'
-
-def run(DataManagementParams:dict, ClassificationParams:dict, StatisticianParams:list, verbose = False,savepath = SAVEPATH):
+def run(DataManagementParams:dict, ClassificationParams:dict, StatisticianParams:list, verbose = False):
     """
     Launches a machine learning classification evaluation
 
@@ -28,18 +24,6 @@ def run(DataManagementParams:dict, ClassificationParams:dict, StatisticianParams
         'ClassificationParams':ClassificationParams,
         'StatisticianParams':StatisticianParams
     }
-
-    # 0. Check to see if work was already done.
-    resultsJson = {}
-    if(os.path.isfile(savepath + RESULTS_FILENAME)):
-            with open(savepath + RESULTS_FILENAME) as f:
-                resultsJson = json.load(f)
-            for key in resultsJson:
-                if(resultsJson[key]['pipeline'] == cmd):
-                    statisticsPath = savepath + key
-                    if(verbose): print('Loading saved statistics data from %s'%(statisticsPath))
-                    statisticsJson = resultsJson[key]['results']
-                    return statisticsJson
 
     # 1. Prepare data
     dm = DataManager(**DataManagementParams)
@@ -67,18 +51,9 @@ def run(DataManagementParams:dict, ClassificationParams:dict, StatisticianParams
     if(verbose): print('Done!')
     # 8. Calculate average statistics
     statisticsJson = stats.getStatistics()
-
-    # 9. Save results
-    if(savepath is not None):
-        stats_name = str(uuid.uuid1())
-
-        #Update results.json
-        resultsJson.update({stats_name:{'pipeline':cmd,'results':statisticsJson}})
-        with open(savepath + RESULTS_FILENAME, 'w') as f:
-            json.dump(resultsJson,f,indent=4)
     
-
-    return statisticsJson
+    stats_name = str(uuid.uuid1())
+    return {stats_name:{'pipeline':cmd,'results':statisticsJson}}
         
 
 if __name__ == '__main__':
