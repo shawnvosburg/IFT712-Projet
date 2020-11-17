@@ -22,7 +22,7 @@ class SVM(Classifier):
         void.
         """
         X = X.values
-        Y = Y.dict_values
+        Y = Y.values
         self._model.fit(X=X, y=Y)
 
     def predict(self, X):

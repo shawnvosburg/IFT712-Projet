@@ -43,7 +43,7 @@ class DataManagerGridSearch():
 
 def saveDict(obj,savepath = SAVEPATH + RESULTS_FILENAME):
     with open(savepath, 'w') as f:
-        json.dump(obj,f)
+        json.dump(obj,f,indent=4)
 
 
 if __name__ == '__main__':
@@ -121,9 +121,8 @@ if __name__ == '__main__':
     #For each hyperparam combination that hasnt been run, run model and update results
     for i,(c,d) in enumerate(gen, start = len(resultsJson)):
         #Checkpoint
-        if(i%100 == 0): 
-            print('Combination %d'%i)
-            saveDict(resultsJson)
+        print('Combination %d'%i)
+        saveDict(resultsJson)
         resultsJson.update(run(DataManagementParams = d, ClassificationParams = c, StatisticianParams= ['Accuracy','Precision','Recall'], verbose = False))
     
     #Final save of values
