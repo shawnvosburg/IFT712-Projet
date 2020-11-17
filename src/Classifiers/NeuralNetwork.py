@@ -1,7 +1,6 @@
 #!/usr/bin/python
 #-*- coding: utf-8 -*-
 from sklearn.neural_network import MLPClassifier
-
 from src.Classifiers import Classifier
 
 class NeuralNetwork(Classifier):
