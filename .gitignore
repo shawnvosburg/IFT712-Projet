@@ -25,6 +25,7 @@ var/
 venv/
 models/results/*
 !models/results/.gitkeep
+!models/results/results.json
 
 # PyInstaller
 #  Usually these files are written by a python script from a template
