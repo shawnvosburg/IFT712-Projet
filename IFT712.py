@@ -119,13 +119,32 @@ if __name__ == '__main__':
         next(gen)
 
     #For each hyperparam combination that hasnt been run, run model and update results
+    hasChanged = False
     for i,(c,d) in enumerate(gen, start = len(resultsJson)):
         #Checkpoint
         print('Combination %d'%i)
         saveDict(resultsJson)
         resultsJson.update(run(DataManagementParams = d, ClassificationParams = c, StatisticianParams= ['Accuracy','Precision','Recall'], verbose = False))
-    
+        hasChanged = True
+
     #Final save of values
-    saveDict(resultsJson)
+    if(hasChanged):
+        saveDict(resultsJson)
+
+    #===============
+    #Analyse results
+    #===============
+    #1. Sort results by validation accuracy
+    sortedResults = sorted(resultsJson.values(), key = lambda x: x['results']['Accuracy'], reverse=True)
+    
+    #2. Pick best results (highest val accuracy) for every classifier
+    classifiers = set(map(lambda x: x['pipeline']['ClassificationParams']['classifier'], resultsJson.values()))
+    classifiersResults = []
+    for classifier in classifiers:
+        classifierResults = filter(lambda x: x['pipeline']['ClassificationParams']['classifier'] == classifier, resultsJson.values())
+        classifiersResults.append((classifier, sorted(classifierResults, key = lambda x: x['results']['Accuracy'], reverse=True)[0]))
+    
+    import pdb; pdb.set_trace()
+
 
 
