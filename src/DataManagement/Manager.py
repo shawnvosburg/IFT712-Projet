@@ -47,11 +47,17 @@ class DataManager:
 
     # Common datasubsets 
     @property
+    def df(self):
+        return self._df
+    @property
     def df_Train(self):
         return self._df.loc[self.train_indexes]
     @property
     def df_Test(self):
         return self._df.loc[self.test_indexes]
+    @property
+    def labels(self):
+        return self._labels
     @property
     def labels_Train(self):
         return self._labels.loc[self.train_indexes]
