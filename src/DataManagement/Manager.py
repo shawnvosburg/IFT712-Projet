@@ -170,6 +170,7 @@ if __name__ == '__main__':
         #Spliting data into [Train & Validation] & [Test] datasets
         dm.setSeed(0) #Important in order to always have same test set
         dm.split_data(test_ratio=0.1)
+        print("Amount of Test observations:", len(dm.df_Test))
 
         #Getting K-fold datasets
         for i, (X_train, X_val, Y_train, Y_val) in enumerate(dm.k_fold(k=10)):
@@ -195,6 +196,7 @@ if __name__ == '__main__':
         dm2.importAndPreprocess(label_name = 'species')
         dm2.setSeed(0)
         dm2.split_data(test_ratio=0.1)
+        print("Amount of Test observations:", len(dm2.df_Test))
         for i, (X_train, X_val, Y_train, Y_val) in enumerate(dm2.k_fold(k=10)):
             print('K =', i)
             print('\tAmount of Train observations:', len(X_train))
