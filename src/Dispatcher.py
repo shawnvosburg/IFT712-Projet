@@ -1,9 +1,55 @@
 from src.DataManagement.Manager import DataManager
 import src.Classifiers as classification
 import src.Statistics as statistics
-import pathlib
+import numpy as np
 import uuid
-import os
+import pandas as pd
+
+
+def runTestSet(DataManagementParams:dict, ClassificationParams:dict, StatisticianParams:list, verbose = False):
+    """
+    Launches a machine learning classification evaluation
+
+    Parameters
+    ==========
+    DataManagementParams: dict -> Parameters to send to the DataManagement module.
+    ClassificationParams: dict -> Parameters to send to the Classifiers module.
+    StatisticianParams: list -> Parameters to send to the Statistician module.
+
+    Returns
+    =======
+    Results in with hyperparameters in dictionary format
+    """
+    cmd = {
+        'DataManagementParams':DataManagementParams,
+        'ClassificationParams':ClassificationParams,
+        'StatisticianParams':StatisticianParams
+    }
+
+    # 1. Prepare data
+    dm = DataManager(**DataManagementParams)
+    dm.importAndPreprocess(label_name = 'species',verbose=verbose)
+    dm.split_data(test_ratio=0.1)
+
+    # 2. Create Statistician
+    stats = statistics.Statistician(StatisticianParams)
+
+    # 3. Train
+    if(verbose): print('Fitting model...',end='')
+    clf = classification.getClassifier(**ClassificationParams)
+    clf.fit(dm.df_Train,dm.labels_Train)
+    if(verbose): print('Done!')
+
+    # 4. Prediction
+    if(verbose): print('Prediciting Test Set...',end='')
+    predictions = clf.predict(dm.df_Test.values)
+    if(verbose): print('Done!')
+
+    # 5. Statistics
+    stats.appendLabels(predictions, dm.labels_Test.values)
+    return {'predictions':predictions,'truths':dm.labels_Test.values, 'metrics':stats.getStatistics()}
+
+
 
 def run(DataManagementParams:dict, ClassificationParams:dict, StatisticianParams:list, verbose = False):
     """
@@ -17,7 +63,7 @@ def run(DataManagementParams:dict, ClassificationParams:dict, StatisticianParams
 
     Returns
     =======
-    void.
+    Results in with hyperparameters in dictionary format
     """
     cmd = {
         'DataManagementParams':DataManagementParams,
