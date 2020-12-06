@@ -59,6 +59,11 @@ This test runs the following pipeline:
 3. Calculating performance statistics
     1. The accuracy, precision and recall metrics are calculated once the model is trained.
 
+Notebooks
+----------
+Two notebooks are available under notebooks/. 
+1. **DataExploration.ipynb**. We explore the different distributions of the data to try to hypothesize what type of classifier would work well with the data. 
+2. **ResultsAnalysis.ipynb**. We analyse the results from our gridsearch performed on Google's Compute Engine. 
 
 Brief description of modules
 ----------------------------
