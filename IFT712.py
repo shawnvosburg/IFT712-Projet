@@ -110,7 +110,7 @@ if __name__ == '__main__':
                                     gamma =  np.logspace(-9,np.log10(2), 20),      # Kernel coefficient for ‘rbf’, ‘poly’ and ‘sigmoid
                                                 )
 
-    # Create Generatore that generates hyperparameter values
+    # Create Generator that generates hyperparameter values
     cgs = itertools.chain(*map(lambda x: x.gridsearchGenerator(), [cgsKernelMethod, cgsGenerativeModel, cgsLogisticRegression, cgsNeuralNetwork, cgsPerception, cgsSVM]))
     gen = itertools.product(cgs,dgs.gridsearch())
     
@@ -131,20 +131,6 @@ if __name__ == '__main__':
     if(hasChanged):
         saveDict(resultsJson)
 
-    #===============
-    #Analyse results
-    #===============
-    #1. Sort results by validation accuracy
-    sortedResults = sorted(resultsJson.values(), key = lambda x: x['results']['Accuracy'], reverse=True)
-    
-    #2. Pick best results (highest val accuracy) for every classifier
-    classifiers = set(map(lambda x: x['pipeline']['ClassificationParams']['classifier'], resultsJson.values()))
-    classifiersResults = []
-    for classifier in classifiers:
-        classifierResults = filter(lambda x: x['pipeline']['ClassificationParams']['classifier'] == classifier, resultsJson.values())
-        classifiersResults.append((classifier, sorted(classifierResults, key = lambda x: x['results']['Accuracy'], reverse=True)[0]))
-    
-    import pdb; pdb.set_trace()
-
+    #Results analysis is done in ./notebook/ResultsAnalysis.ipynb
 
 

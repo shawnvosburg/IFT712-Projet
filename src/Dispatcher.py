@@ -8,7 +8,7 @@ import pandas as pd
 
 def runTestSet(DataManagementParams:dict, ClassificationParams:dict, StatisticianParams:list, verbose = False):
     """
-    Launches a machine learning classification evaluation
+    Trains on complete training set, predicts on test set and returns predictions with statistics. 
 
     Parameters
     ==========
@@ -18,7 +18,7 @@ def runTestSet(DataManagementParams:dict, ClassificationParams:dict, Statisticia
 
     Returns
     =======
-    Results in with hyperparameters in dictionary format
+    Results of test set with statistics. All in dictionary format.
     """
     cmd = {
         'DataManagementParams':DataManagementParams,
@@ -53,7 +53,7 @@ def runTestSet(DataManagementParams:dict, ClassificationParams:dict, Statisticia
 
 def run(DataManagementParams:dict, ClassificationParams:dict, StatisticianParams:list, verbose = False):
     """
-    Launches a machine learning classification evaluation
+    Launches a machine learning classification evaluation using cross validation
 
     Parameters
     ==========
@@ -63,7 +63,7 @@ def run(DataManagementParams:dict, ClassificationParams:dict, StatisticianParams
 
     Returns
     =======
-    Results in with hyperparameters in dictionary format
+    Results with hyperparameters in dictionary format
     """
     cmd = {
         'DataManagementParams':DataManagementParams,
