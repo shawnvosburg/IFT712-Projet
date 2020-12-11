@@ -23,10 +23,17 @@ A leaf classification dataset is packed with this git repository.
 A description of the dataset can be found on Kaggle at https://www.kaggle.com/c/leaf-classification/data    
 
 
+#### WINDOWS:
 To unpack dataset, navigate to the root project and run:
 
 ```bash
 make extract-leaf
+```
+
+#### Linux/UNIX:
+To unpack dataset, either modify the root makefile to use **python3** or run from root folder:
+```bash
+python3 ./dataset/leaf-classification.py
 ```
 
 ### Installing dependencies 
