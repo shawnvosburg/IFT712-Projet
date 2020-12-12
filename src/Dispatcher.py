@@ -1,10 +1,20 @@
+"""
+IFT712 Term Project
+
+Shawn Vosburg
+Ismail Idrissi
+
+This file contains the logic to:
+    1) Perform cross validation (train & validation sets only)
+    2) Train fully on training set and predict on test set
+"""
+
 from src.DataManagement.Manager import DataManager
 import src.Classifiers as classification
 import src.Statistics as statistics
 import numpy as np
 import uuid
 import pandas as pd
-
 
 def runTestSet(DataManagementParams:dict, ClassificationParams:dict, StatisticianParams:list, verbose = False):
     """
@@ -119,6 +129,8 @@ if __name__ == '__main__':
                     }
                 ]   
         },
+        #CHOOSE ONLY 1.  Note that we index at the end of the list, so no list is actually sent as a param.
+        # The reason we did this is to show the different possibilities. 
         'ClassificationParams': [
             {
             'classifier': 'SVM',
@@ -160,7 +172,7 @@ if __name__ == '__main__':
             {
             'classifier': 'GenerativeModel'
             }
-        ][5],
+        ][5], #IMPORTANT! INDEXING HERE, DO NOT ACTUALLY FEED IN A LIST
         'StatisticianParams':[
             'Accuracy','Precision','Recall'#,'ConfusionMatrix'
         ]

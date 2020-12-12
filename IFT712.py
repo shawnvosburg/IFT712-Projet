@@ -1,3 +1,13 @@
+"""
+IFT712 Term Project
+
+Shawn Vosburg
+Ismail Idrissi
+
+This file contains the logic to perform the grid search. IT IS PROJET SPECIFIC. 
+It performs calls to src.Dispatcher that returns the cross-validation results.
+"""
+
 from src.Dispatcher import run
 import numpy as np
 import itertools
@@ -47,13 +57,14 @@ def saveDict(obj,savepath = SAVEPATH + RESULTS_FILENAME):
 
 
 if __name__ == '__main__':
-    # 0. Load results json file
+    # 0. Load results json file, if it exists.
     if(os.path.isfile(SAVEPATH + RESULTS_FILENAME)):
             with open(SAVEPATH + RESULTS_FILENAME) as f:
                 resultsJson = json.load(f)
     else:
         resultsJson = {}
 
+    # 2. Create objet to perform grid serach over preprocessing methods. 
     dgs = DataManagerGridSearch(seed = 16082604, 
                                 featureAugmenters = [], #No data augmentation because it takes too much place on disk
                                 scalers = [
@@ -69,12 +80,12 @@ if __name__ == '__main__':
                                         'hyperparams':{'n_components':100}
                                     },
                                     {   'method':'FeatureExtraction',
-                                        'hyperparams':{'columns':r'^\w*\d*[02468]$'}
+                                        'hyperparams':{'columns':r'^\w*\d*[02468]$'} #Only the even feature. PROJECT SPECIFIC
                                     }
                                 ]
                                 ) 
 
-    #Must create a gridsearch generator for every classifier
+    #3. Must create a gridsearch generator for every classifier
     cgsKernelMethod = ClassifierGridSearch( classifier='KernelMethod', 
                                             alpha= np.logspace(-9, np.log10(2), 20), 
                                             kernel = ['rbf','linear','poly'], 
@@ -110,20 +121,22 @@ if __name__ == '__main__':
                                     gamma =  np.logspace(-9,np.log10(2), 20),      # Kernel coefficient for ‘rbf’, ‘poly’ and ‘sigmoid
                                                 )
 
-    # Create Generator that generates hyperparameter values
+    # 4. Create Generator that generates hyperparameter values
     cgs = itertools.chain(*map(lambda x: x.gridsearchGenerator(), [cgsKernelMethod, cgsGenerativeModel, cgsLogisticRegression, cgsNeuralNetwork, cgsPerception, cgsSVM]))
     gen = itertools.product(cgs,dgs.gridsearch())
     
-    #Advance generator to right place 
+    # 5. Advance generator to right place. Necessary if mid grid-search crash so as not to start all over again.
     for _ in range(len(resultsJson)):
         next(gen)
 
-    #For each hyperparam combination that hasnt been run, run model and update results
+    # 6. For each hyperparam combination that hasnt been run, run model and update results
     hasChanged = False
     for i,(c,d) in enumerate(gen, start = len(resultsJson)):
         #Checkpoint
         print('Combination %d'%i)
         saveDict(resultsJson)
+
+        #7. Run and update results!!
         resultsJson.update(run(DataManagementParams = d, ClassificationParams = c, StatisticianParams= ['Accuracy','Precision','Recall'], verbose = False))
         hasChanged = True
 
